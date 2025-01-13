@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     // Variables publicas
     public Transform cameraAim;
-    public float walkSpeed, runSpeed, jumpForce, rotationSpeed;
+    public float walkSpeed, runSpeed, jumpForce, rotationSpeed, fallDamageSpeed;
     public GroundDetector groundDetector;
 
     // Variables privadas;
@@ -133,9 +133,31 @@ public class PlayerMovement : MonoBehaviour
     // Funcion para ver si estamos tocando el suelo
     void CheckGround()
     {
+        bool fallDamage = FallDamage();
         isGrounded = groundDetector.GetIsGrounded();
+       
+        if (isGrounded && fallDamage)
+        {
+           GetComponent<PlayerStateMachine>().Death();
+        }
     }
 
+    // Funcion para la muerte por caida
+    bool FallDamage()
+    {   
+        if (!isGrounded && characterController.velocity.y < -fallDamageSpeed)
+        { 
+             return true;
+        }
+       else
+        {
+            return false;
+        }
+        
+
+  
+    } 
+ 
     public float GetCurrentSpeed()
     {
         return currentSpeed;
@@ -144,5 +166,10 @@ public class PlayerMovement : MonoBehaviour
     public void CanMove(bool _state)
     {
         canMove = _state;
+    }
+
+    public Vector3 GetMovementVector()
+    {
+        return vectorMovement;
     }
 }

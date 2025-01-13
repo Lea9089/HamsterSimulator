@@ -39,6 +39,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void Death()
     {
+        if(currentState != deadState)
         SwitchState(deadState);
     }
 
