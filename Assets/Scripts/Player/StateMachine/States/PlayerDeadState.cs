@@ -9,6 +9,8 @@ public class PlayerDeadState : PlayerBaseState
     public float newCameraDistance, speed, rotationSpeed;
     public CameraController cameraController;
     public CinemachineVirtualCamera virtualCamera;
+    public GameObject deathPanel;
+    public CursorManager cursorManager;
 
     // Variables privadas
     private Cinemachine3rdPersonFollow thirdPersonComponent;
@@ -21,6 +23,9 @@ public class PlayerDeadState : PlayerBaseState
         _machine.gameObject.GetComponent<CharacterController>().enabled = false;
         _machine.gameObject.AddComponent<Rigidbody>();
         _machine.gameObject.GetComponent<Rigidbody>().AddRelativeTorque(new Vector3(50f, 0f, 0f));
+
+        deathPanel.SetActive(true);
+        cursorManager.SetCursorState(true);
     }
 
     public override void OnUpdate(PlayerStateMachine _machine)
